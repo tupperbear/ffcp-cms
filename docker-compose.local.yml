@@ -1,0 +1,106 @@
+services:
+    # database:
+    #   image: postgres:17.4
+    #   volumes:
+    #     - directus_database:/var/lib/postgresql/data
+    #   ports:
+    #     - 5555:5432
+    #   environment:
+    #     POSTGRES_USER: "directus"
+    #     POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    #     POSTGRES_DB: "directus"
+    #   healthcheck:
+    #     test: ["CMD", "pg_isready", "--host=localhost", "--username=directus"]
+    #     interval: 10s
+    #     timeout: 5s
+    #     retries: 5
+    #     start_interval: 5s
+    #     start_period: 30s
+
+    # cache:
+    #   image: redis:6
+    #   healthcheck:
+    #     test: ["CMD-SHELL", "[ $$(redis-cli ping) = 'PONG' ]"]
+    #     interval: 10s
+    #     timeout: 5s
+    #     retries: 5
+    #     start_interval: 5s
+    #     start_period: 30s
+
+
+    directus:
+        image: directus/directus:11.5.1
+        ports:
+            - 8055
+        volumes:
+            # - directus_uploads:/directus/uploads
+            - directus_extensions:/directus/extensions
+            - directus_templates:/directus/templates
+        networks:
+            - dokploy-network
+            # depends_on:
+            # database:
+            #   condition: service_healthy
+            # cache:
+            #   condition: service_healthy
+        environment:
+            SECRET: ${DIRECTUS_SECRET}
+            PUBLIC_URL: "https://ffcp-cms.tupp.dev"
+
+            DB_CLIENT: "pg"
+            # DB_HOST: "database"
+            # DB_PORT: "5432"
+            # DB_DATABASE: "directus"
+            # DB_USER: "directus"
+            # DB_PASSWORD: ${DATABASE_PASSWORD}
+            # DB_SSL__REJECT_UNAUTHORIZED: "false"
+            DB_CONNECTION_STRING: ${DATABASE_URL}
+
+            CACHE_ENABLED: "true"
+            CACHE_AUTO_PURGE: "true"
+            CACHE_STORE: "memory"
+            #REDIS: "redis://cache:6379"
+
+            # After first successful login, remove the admin email/password env. variables below
+            # as these will now be stored in the database.
+            ADMIN_EMAIL: "admin@example.com"
+            ADMIN_PASSWORD: "kentville"
+
+            EMAIL_FROM: "notifications@tupp.dev"
+            EMAIL_TRANSPORT: "smtp"
+            EMAIL_SMTP_HOST: "smtp.protonmail.ch"
+            EMAIL_SMTP_PORT: 587
+            EMAIL_SMTP_USER: "notifications@tupp.dev"
+            EMAIL_SMTP_PASSWORD: ${SMTP_TOKEN}
+
+            # Storage
+            STORAGE_LOCATIONS: "r2a,r2e,local"
+
+            # R2 Assets (r2a)
+            STORAGE_R2A_DRIVER: "s3"
+            STORAGE_R2A_KEY: ${R2A_KEY}
+            STORAGE_R2A_SECRET: ${R2A_SECRET}
+            STORAGE_R2A_BUCKET: ${R2A_BUCKET}
+            STORAGE_R2A_REGION: ${R2A_REGION}
+            STORAGE_R2A_ENDPOINT: ${R2A_ENDPOINT}
+
+            # R2 Extensions (r2e)
+            STORAGE_R2E_DRIVER: "s3"
+            STORAGE_R2E_KEY: ${R2E_KEY}
+            STORAGE_R2E_SECRET: ${R2E_SECRET}
+            STORAGE_R2E_BUCKET: ${R2E_BUCKET}
+            STORAGE_R2E_REGION: ${R2E_REGION}
+            STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
+
+            # Extensions
+            EXTENSIONS_LOCATION: "r2e"
+
+volumes:
+    # directus_uploads:
+    directus_extensions:
+    directus_templates:
+        # directus_database:
+
+networks:
+    dokploy-network:
+        external: true

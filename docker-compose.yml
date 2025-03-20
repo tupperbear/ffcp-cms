@@ -1,0 +1,63 @@
+services:
+    directus:
+        image: directus/directus:11.5.1
+        ports:
+            - 8055
+        volumes:
+            - directus_templates:/directus/templates
+        networks:
+            - dokploy-network
+        environment:
+            # General
+            SECRET: ${DIRECTUS_SECRET}
+            PUBLIC_URL: ${DIRECTUS_PUBLIC_URL}
+
+            # Database
+            DB_CLIENT: "pg"
+            DB_CONNECTION_STRING: ${DATABASE_URL}
+            
+            #Cache
+            CACHE_ENABLED: "true"
+            CACHE_AUTO_PURGE: "true"
+            CACHE_STORE: "memory"
+
+            # Admin user
+            ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+            ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+
+            # Notifications
+            EMAIL_FROM: ${EMAIL_FROM}
+            EMAIL_TRANSPORT: "smtp"
+            EMAIL_SMTP_HOST: ${EMAIL_HOST}
+            EMAIL_SMTP_PORT: ${EMAIL_PORT}
+            EMAIL_SMTP_USER: ${EMAIL_USER}
+            EMAIL_SMTP_PASSWORD: ${EMAIL_PASSWORD}
+
+            # Storage
+            STORAGE_LOCATIONS: "r2a,r2e,local"
+
+            # R2 Assets (r2a)
+            STORAGE_R2A_DRIVER: "s3"
+            STORAGE_R2A_KEY: ${R2A_KEY}
+            STORAGE_R2A_SECRET: ${R2A_SECRET}
+            STORAGE_R2A_BUCKET: ${R2A_BUCKET}
+            STORAGE_R2A_REGION: ${R2A_REGION}
+            STORAGE_R2A_ENDPOINT: ${R2A_ENDPOINT}
+
+            # R2 Extensions (r2e)
+            STORAGE_R2E_DRIVER: "s3"
+            STORAGE_R2E_KEY: ${R2E_KEY}
+            STORAGE_R2E_SECRET: ${R2E_SECRET}
+            STORAGE_R2E_BUCKET: ${R2E_BUCKET}
+            STORAGE_R2E_REGION: ${R2E_REGION}
+            STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
+
+            # Extensions
+            EXTENSIONS_LOCATION: "r2e"
+      
+volumes:
+    directus_templates:
+
+networks:
+    dokploy-network:
+        external: true
