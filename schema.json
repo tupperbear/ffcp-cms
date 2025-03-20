@@ -2034,7 +2034,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/53e21517-ce4f-4d9c-92a9-9ad80d9112e0.jpeg?width=2954&amp;height=1536\" alt=\"Accordion Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/accordion-help.jpeg\" alt=\"Accordion Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -3910,7 +3910,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/3eba8ba8-926b-4ea1-a8eb-37278b1493d9.jpeg?width=2926&amp;height=2024\" alt=\"Coursel Help\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/carousel-help.jpeg\" alt=\"Coursel Help\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -5028,7 +5028,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/1db7b2c2-ddaa-4887-b056-c013de130cdd.jpeg?width=2970&amp;height=958\" alt=\"Columns Text Help\"></p>\n<p>The text column content block spreads the text content in the \"text\" field evenly over two columns as seen in the sample screen shot. The title field is optional so you can omit it in case you just want the two text columns without the large heading.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/columns-text-help.jpeg\" alt=\"Columns Text Help\"></p>\n<p>The text column content block spreads the text content in the \"text\" field evenly over two columns as seen in the sample screen shot. The title field is optional so you can omit it in case you just want the two text columns without the large heading.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -5681,7 +5681,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/6ad778ef-4229-4cbd-861d-85e3b4e9e550.jpeg?width=2938&amp;height=687\" alt=\"CTA Block Help\"></p>\n<p>You can control the background color of the CTA block section using the color option. Additionally select the \"Open in New Tab\" button if you would like the linked page to open in a new tab in the users browser.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/cta-block-help.jpeg\" alt=\"CTA Block Help\"></p>\n<p>You can control the background color of the CTA block section using the color option. Additionally select the \"Open in New Tab\" button if you would like the linked page to open in a new tab in the users browser.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "CTA Block"
                     },
@@ -6494,7 +6494,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/ef37f640-813c-417a-931e-eaddb2764236.jpeg?width=2960&amp;height=1112\" alt=\"Feature Left Block Help\"></p>\n<p>The \"Color\" field determines the background color behind the text. If the button fields are left blank then the button is not rendered and the section layout adjusts accordingly.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/feature-left-block-help.jpeg\" alt=\"Feature Left Block Help\"></p>\n<p>The \"Color\" field determines the background color behind the text. If the button fields are left blank then the button is not rendered and the section layout adjusts accordingly.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -7187,7 +7187,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/6d1e009c-4477-49ad-bac3-65286f8b8fcc.jpeg?width=2962&amp;height=1934\" alt=\"Feature Right Block Help\"></p>\n<p>The \"Color\" field determines the background color behind the text. If the button fields are left blank then the button is not rendered and the section layout adjusts accordingly.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/feature-right-block-help.jpeg\" alt=\"Feature Right Block Help\"></p>\n<p>The \"Color\" field determines the background color behind the text. If the button fields are left blank then the button is not rendered and the section layout adjusts accordingly.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -8212,7 +8212,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/e7ba3daf-99ce-426f-bf77-3d572e772971.jpeg?width=2944&amp;height=1214\" alt=\"Full Width Image With CTA Help\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/full-width-image-with-cta-help.jpeg\" alt=\"Full Width Image With CTA Help\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "Full Width Image with CTA Block"
                     },
@@ -8788,7 +8788,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/abee92c2-2ded-4703-8171-ae711ea324be.jpeg?width=2960&amp;height=894\" alt=\"Full Width Text Help\"></p>\n<p>The \"Label\" field is for CMS identification purposes only and does not appear on the website. If this block is adjacent to another white block you can tick the \"Tint Background\" box to give it some background contrast.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/full-width-text-help.jpeg\" alt=\"Full Width Text Help\"></p>\n<p>The \"Label\" field is for CMS identification purposes only and does not appear on the website. If this block is adjacent to another white block you can tick the \"Tint Background\" box to give it some background contrast.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{label}}"
                     },
@@ -9166,7 +9166,7 @@
                                 "type": "normal"
                             }
                         ],
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/59edef7c-e002-4adb-a693-9825ee83dbc6.jpeg?width=2940&amp;height=784\" alt=\"Global Footer\"><br><br>The globals collection contains items which pertain to the website as a whole. From a default page title to footer menus, these items typically appear on all pages unless overridden by that pages more specific settings.</p>\n<h3>Title, Description &amp; Image</h3>\n<p>These fields are used as a default page title, description and Open Graph image for SEO purposes in the event that SEO data is not set on a page.&nbsp;</p>\n<h3>Social Links</h3>\n<p>Here you can specify a list of social media accounts which will then be displayed in the footer of the website.&nbsp;</p>\n<h3>Footer Logos</h3>\n<p>Here you can specify a list of logos with links which will be displayed in the footer of the website.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/globals-help.jpeg\" alt=\"Global Footer\"><br><br>The globals collection contains items which pertain to the website as a whole. From a default page title to footer menus, these items typically appear on all pages unless overridden by that pages more specific settings.</p>\n<h3>Title, Description &amp; Image</h3>\n<p>These fields are used as a default page title, description and Open Graph image for SEO purposes in the event that SEO data is not set on a page.&nbsp;</p>\n<h3>Social Links</h3>\n<p>Here you can specify a list of social media accounts which will then be displayed in the footer of the website.&nbsp;</p>\n<h3>Footer Logos</h3>\n<p>Here you can specify a list of logos with links which will be displayed in the footer of the website.</p>",
                         "icon": "globe_asia",
                         "subtitle": null,
                         "title": "Website Global Details"
@@ -10241,7 +10241,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/1b9aa89e-8f34-49b0-9c3c-2ec8909dbb76.jpeg?width=2960&amp;height=1288\" alt=\"Hero Help\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/hero-help.jpeg\" alt=\"Hero Help\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{left_hero_text}}"
                     },
@@ -11040,7 +11040,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/23b6eece-b7a3-454a-9ede-1c52bb71975b.jpeg?width=2950&amp;height=1268\" alt=\"Hero Alt Help\" loading=\"lazy\"></p>\n<p>The <strong>Video Thumbnail</strong> field is used to show a specific image in the video player space before the user presses play at which point the thumbnail will be replaced by the playing video. If no thumbnail image is specified we use the first frame of the video as the thumbnail.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/hero-alt-help.jpeg\" alt=\"Hero Alt Help\" loading=\"lazy\"></p>\n<p>The <strong>Video Thumbnail</strong> field is used to show a specific image in the video player space before the user presses play at which point the thumbnail will be replaced by the playing video. If no thumbnail image is specified we use the first frame of the video as the thumbnail.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{hero_title}}"
                     },
@@ -11530,7 +11530,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/9adbb368-0c97-4eea-a191-c417b433d22f.jpeg?width=2914&amp;height=1580\" alt=\"Image Help\" loading=\"lazy\"></p>\n<p>Simply adds an image to the page. Unlike the full width image block this image is constrained to the inner limits of the page.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/image-help.jpeg\" alt=\"Image Help\" loading=\"lazy\"></p>\n<p>Simply adds an image to the page. Unlike the full width image block this image is constrained to the inner limits of the page.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -11975,7 +11975,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/09a77e2b-b1f0-497a-9165-6ebb2322e767.jpeg?width=2966&amp;height=532\" alt=\"Intro Text Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/intro-text-help.jpeg\" alt=\"Intro Text Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "Intro Block"
                     },
@@ -13124,7 +13124,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/1c43c885-a8d8-4914-bbbf-e79ef8c91a2f.jpeg?width=2934&amp;height=1356\" alt=\"Modal Help\" loading=\"lazy\"></p>\n<p>The modal block appears on screen automatically a few seconds after the page is loaded. While not shown in this reference image you can also set a background image for the modal.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/modal-help.jpeg\" alt=\"Modal Help\" loading=\"lazy\"></p>\n<p>The modal block appears on screen automatically a few seconds after the page is loaded. While not shown in this reference image you can also set a background image for the modal.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -14818,7 +14818,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/5565258d-c299-4a26-8062-422089773ddb.jpeg?width=2922&amp;height=658\" alt=\"Page Header Help\" loading=\"lazy\"></p>\n<p>The page header block is used at the top of a page to visually anchor which section the page belongs to and display a page heading. There is a subheading which can optionally used as well.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/page-header-help.jpeg\" alt=\"Page Header Help\" loading=\"lazy\"></p>\n<p>The page header block is used at the top of a page to visually anchor which section the page belongs to and display a page heading. There is a subheading which can optionally used as well.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{heading}}"
                     },
@@ -17343,7 +17343,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/f4c23e67-8165-4db5-bf85-342e13124285.jpeg?width=2918&amp;height=1602\" alt=\"Points With Icons Help\" loading=\"lazy\"></p>\n<p><strong>Color</strong> controls the color of the icons and <strong>Ting Bg</strong> adds a slight tint to the background to add contrast in case an adjacent content block has a white background.&nbsp;<br><br>Each point item can have a link associated with it which will appear below the caption as a text link.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/points-with-icons-help.jpeg\" alt=\"Points With Icons Help\" loading=\"lazy\"></p>\n<p><strong>Color</strong> controls the color of the icons and <strong>Ting Bg</strong> adds a slight tint to the background to add contrast in case an adjacent content block has a white background.&nbsp;<br><br>Each point item can have a link associated with it which will appear below the caption as a text link.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -17991,7 +17991,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/cfa6d119-374c-4410-8311-3713b4256c4d.jpeg?width=2944&amp;height=1602\" alt=\"Points With Images Help\" loading=\"lazy\"></p>\n<p>Each point is also able to have its own caption and link. They would appear below the image and title.&nbsp;</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/points-with-images-help.jpeg\" alt=\"Points With Images Help\" loading=\"lazy\"></p>\n<p>Each point is also able to have its own caption and link. They would appear below the image and title.&nbsp;</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -19287,7 +19287,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/d0133148-6aff-4ced-83f4-7d05aa162770.jpeg?width=2952&amp;height=2060\" alt=\"Region Map Help\" loading=\"lazy\"></p>\n<p>The map can be linked to another page by entering a URL in the <strong>Map Link</strong> field. The map region block shows either eligible or ineligible counties depending on whether the <strong>Is Eligible</strong> field is selected or not.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/region-map-help.jpeg\" alt=\"Region Map Help\" loading=\"lazy\"></p>\n<p>The map can be linked to another page by entering a URL in the <strong>Map Link</strong> field. The map region block shows either eligible or ineligible counties depending on whether the <strong>Is Eligible</strong> field is selected or not.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{label}}"
                     },
@@ -19976,7 +19976,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/32293400-2242-4fb4-acc0-c131f9a4c2be.jpeg?width=2966&amp;height=728\" alt=\"Section Help\" loading=\"lazy\"></p>\n<p>The section collection defines the 4 major sections of the website: For Landowners, For Corporations, For Foresters and Our Approach. Along with the title the section color defines the background color used in these sections as well as their corresponding fly out side menu when you click the menu option in the header.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/section-help.jpeg\" alt=\"Section Help\" loading=\"lazy\"></p>\n<p>The section collection defines the 4 major sections of the website: For Landowners, For Corporations, For Foresters and Our Approach. Along with the title the section color defines the background color used in these sections as well as their corresponding fly out side menu when you click the menu option in the header.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -21042,7 +21042,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/e0ff0591-2118-4957-b45e-7f0501f9b178.jpeg?width=2946&amp;height=2486\" alt=\"Signup Form Help\" loading=\"lazy\"></p>\n<p>The signup form block is just a title and text field. The form elements come from an embedded hubspot form. The values captured in the form are not stored in the CMS, they can be found in Hubspot.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/signup-form-help.jpeg\" alt=\"Signup Form Help\" loading=\"lazy\"></p>\n<p>The signup form block is just a title and text field. The form elements come from an embedded hubspot form. The values captured in the form are not stored in the CMS, they can be found in Hubspot.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -22637,7 +22637,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/bba6df7a-6f3e-4016-a45d-6300a0196228.jpeg?width=2960&amp;height=1136\" alt=\"Stats Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/stats-help.jpeg\" alt=\"Stats Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -23786,7 +23786,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/9f94b02b-6d1b-4f7a-a62c-e0113b83164b.jpeg?width=2952&amp;height=1100\" alt=\"Testimonial Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/testimonial-help.jpeg\" alt=\"Testimonial Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -24577,7 +24577,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/0c8ff7d9-11ac-4b9f-aa2f-1040b8c0be10.jpeg?width=2962&amp;height=1108\" alt=\"Text With CTA Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/text-with-cta-help.jpeg\" alt=\"Text With CTA Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{label}}"
                     },
@@ -25096,7 +25096,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/c984c704-a9ce-4441-bfa9-c72322809d7b.jpeg?width=2958&amp;height=1532\" alt=\"Text With Files Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/text-with-files-help.jpeg\" alt=\"Text With Files Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -25830,7 +25830,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/a343d564-8957-4dbf-8d59-1a40c59ae350.jpeg?width=2946&amp;height=788\" alt=\"Text With Links Help\" loading=\"lazy\"></p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/text-with-links-help.jpeg\" alt=\"Text With Links Help\" loading=\"lazy\"></p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },
@@ -26638,7 +26638,7 @@
                     "interface": "super-header",
                     "note": null,
                     "options": {
-                        "help": "<p><img src=\"https://ffcp-cms.hiyo.dev/assets/c80c595f-ed91-4ec7-996c-da16c2ba93c8.jpeg?width=2954&amp;height=1086\" alt=\"Video Help\" loading=\"lazy\"></p>\n<p>The <strong>layout</strong> field determines the position of the video relative to the caption text. The <strong>video thumbnail</strong> field image will be shown until the video play button is pressed if specified. If no thumbnail is set then we use the first frame of the video as the thumbnail.</p>",
+                        "help": "<p><img src=\"https://cdn.tupp.dev/ffcp/help/video-help.jpeg\" alt=\"Video Help\" loading=\"lazy\"></p>\n<p>The <strong>layout</strong> field determines the position of the video relative to the caption text. The <strong>video thumbnail</strong> field image will be shown until the video play button is pressed if specified. If no thumbnail is set then we use the first frame of the video as the thumbnail.</p>",
                         "subtitle": "Last updated at: {{date_updated}} · {{status}}",
                         "title": "{{title}}"
                     },

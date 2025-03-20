@@ -54,6 +54,9 @@ services:
 
             # Extensions
             EXTENSIONS_LOCATION: "r2e"
+
+            # CSP - allow external images from R2
+            CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC: "array:'self',blob:,https://cdn.tupp.dev"
       
 volumes:
     directus_templates:
