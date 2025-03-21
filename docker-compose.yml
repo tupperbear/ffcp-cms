@@ -54,8 +54,8 @@ services:
             STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
 
             # Extensions
-            # EXTENSIONS_LOCATION: "local"
-            EXTENSIONS_AUTO_RELOAD: true
+            EXTENSIONS_LOCATION: "r2e"
+            # EXTENSIONS_AUTO_RELOAD: true
             MARKETPLACE_TRUST: "all"
 
             # CSP - allow external images from R2 and previews from our preview build
