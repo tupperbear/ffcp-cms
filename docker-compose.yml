@@ -5,6 +5,7 @@ services:
             - 8055
         volumes:
             - directus_templates:/directus/templates
+            - directus_extensions:/directus/extensions
         networks:
             - dokploy-network
         environment:
@@ -53,7 +54,8 @@ services:
             STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
 
             # Extensions
-            EXTENSIONS_LOCATION: "r2e"
+            # EXTENSIONS_LOCATION: "local"
+            EXTENSIONS_AUTO_RELOAD: true
             MARKETPLACE_TRUST: "all"
 
             # CSP - allow external images from R2 and previews from our preview build
@@ -67,6 +69,7 @@ services:
 
 volumes:
     directus_templates:
+    directus_extensions:
 
 networks:
     dokploy-network:
