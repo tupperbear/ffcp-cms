@@ -5,7 +5,6 @@ services:
             - 8055
         volumes:
             - directus_templates:/directus/templates
-            - directus_extensions:/directus/extensions
         networks:
             - dokploy-network
         environment:
@@ -54,19 +53,20 @@ services:
             STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
 
             # Extensions
-            EXTENSIONS_LOCATION: "local"
+            EXTENSIONS_LOCATION: "r2e"
+            MARKETPLACE_TRUST: "all"
 
             # CSP - allow external images from R2 and previews from our preview build
             CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC: "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,https://cdn.tupp.dev"
             CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC: "https://ffcp-preview.pages.dev/"
 
+            # Misc
             ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 9000
             WEBSOCKETS_ENABLED: true
             TELEMETRY: false
 
 volumes:
     directus_templates:
-    directus_extensions:
 
 networks:
     dokploy-network:
