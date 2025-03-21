@@ -5,7 +5,7 @@ services:
             - 8055
         volumes:
             - directus_templates:/directus/templates
-            - directus_extensions:/directus/extensions
+            #- directus_extensions:/directus/extensions
         networks:
             - dokploy-network
         environment:
@@ -69,7 +69,7 @@ services:
 
 volumes:
     directus_templates:
-    directus_extensions:
+    #directus_extensions:
 
 networks:
     dokploy-network:
