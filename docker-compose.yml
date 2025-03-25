@@ -4,8 +4,9 @@ services:
         ports:
             - 8055
         volumes:
+            - directus_uploads:/directus/uploads
             - directus_templates:/directus/templates
-            #- directus_extensions:/directus/extensions
+            - directus_extensions:/directus/extensions
         networks:
             - dokploy-network
         environment:
@@ -35,7 +36,7 @@ services:
             EMAIL_SMTP_PASSWORD: ${EMAIL_PASSWORD}
 
             # Storage
-            STORAGE_LOCATIONS: "r2a,r2e,local"
+            STORAGE_LOCATIONS: "local,r2a,r2e"
 
             # R2 Assets (r2a)
             STORAGE_R2A_DRIVER: "s3"
@@ -54,8 +55,8 @@ services:
             STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
 
             # Extensions
-            EXTENSIONS_LOCATION: "r2e"
-            # EXTENSIONS_AUTO_RELOAD: true
+            EXTENSIONS_LOCATION: "local"
+            EXTENSIONS_AUTO_RELOAD: true
             MARKETPLACE_TRUST: "all"
 
             # CSP - allow external images from R2 and previews from our preview build
@@ -68,8 +69,9 @@ services:
             TELEMETRY: false
 
 volumes:
+    directus_uploads:
     directus_templates:
-    #directus_extensions:
+    directus_extensions:
 
 networks:
     dokploy-network:
