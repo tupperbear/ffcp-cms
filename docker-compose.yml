@@ -36,23 +36,23 @@ services:
             EMAIL_SMTP_PASSWORD: ${EMAIL_PASSWORD}
 
             # Storage
-            STORAGE_LOCATIONS: "local,r2a,r2e"
+            STORAGE_LOCATIONS: "local"
 
             # R2 Assets (r2a)
-            STORAGE_R2A_DRIVER: "s3"
-            STORAGE_R2A_KEY: ${R2A_KEY}
-            STORAGE_R2A_SECRET: ${R2A_SECRET}
-            STORAGE_R2A_BUCKET: ${R2A_BUCKET}
-            STORAGE_R2A_REGION: ${R2A_REGION}
-            STORAGE_R2A_ENDPOINT: ${R2A_ENDPOINT}
+            # STORAGE_R2A_DRIVER: "s3"
+            # STORAGE_R2A_KEY: ${R2A_KEY}
+            # STORAGE_R2A_SECRET: ${R2A_SECRET}
+            # STORAGE_R2A_BUCKET: ${R2A_BUCKET}
+            # STORAGE_R2A_REGION: ${R2A_REGION}
+            # STORAGE_R2A_ENDPOINT: ${R2A_ENDPOINT}
 
             # R2 Extensions (r2e)
-            STORAGE_R2E_DRIVER: "s3"
-            STORAGE_R2E_KEY: ${R2E_KEY}
-            STORAGE_R2E_SECRET: ${R2E_SECRET}
-            STORAGE_R2E_BUCKET: ${R2E_BUCKET}
-            STORAGE_R2E_REGION: ${R2E_REGION}
-            STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
+            # STORAGE_R2E_DRIVER: "s3"
+            # STORAGE_R2E_KEY: ${R2E_KEY}
+            # STORAGE_R2E_SECRET: ${R2E_SECRET}
+            # STORAGE_R2E_BUCKET: ${R2E_BUCKET}
+            # STORAGE_R2E_REGION: ${R2E_REGION}
+            # STORAGE_R2E_ENDPOINT: ${R2E_ENDPOINT}
 
             # Extensions
             EXTENSIONS_LOCATION: "local"
