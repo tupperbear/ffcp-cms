@@ -59,9 +59,10 @@ services:
             EXTENSIONS_AUTO_RELOAD: true
             MARKETPLACE_TRUST: "all"
 
-            # CSP - allow external images from R2 and previews from our preview build
+            # CSP - allow external images from R2, previews from our preview build and PDF viewing using extension
             CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC: "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,https://cdn.tupp.dev"
             CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC: "https://ffcp-preview.pages.dev/"
+            CONTENT_SECURITY_POLICY_DIRECTIVES__SCRIPT_SRC: "array:'self' data:"
 
             # Misc
             ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 9000
