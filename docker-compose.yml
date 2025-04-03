@@ -59,6 +59,11 @@ services:
             EXTENSIONS_AUTO_RELOAD: true
             MARKETPLACE_TRUST: "all"
 
+            # CORS
+            CORS_ENABLED: "true"
+            CORS_ORIGIN: "http://localhost:4321"
+            CORS_CREDENTIALS: "true"
+
             # CSP - allow external images from R2 and previews from our preview build
             CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC: "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,i.vimeocdn.com 'unsafe-eval',i.ytimg.com 'unsafe-eval'"
             CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC: "https://ffcp-website-preview.netlify.app,https://www.youtube-nocookie.com,https://player.vimeo.com,http://localhost:4321"
