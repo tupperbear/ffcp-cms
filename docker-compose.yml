@@ -72,7 +72,7 @@ services:
             CONTENT_SECURITY_POLICY_DIRECTIVES__MEDIA_SRC: "array:'self', cdn.plyr.io"
 
             # Misc
-            ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 9000
+            ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 12000
             WEBSOCKETS_ENABLED: true
             TELEMETRY: false
 
