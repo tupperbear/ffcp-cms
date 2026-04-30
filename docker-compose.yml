@@ -73,6 +73,8 @@ services:
 
             # Misc
             ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 12000
+            EXTENSIONS_REDUCE_ON_UPLOAD_QUALITY: 80
+            EXTENSIONS_REDUCE_ON_UPLOAD_MAXSIZE: 2000
             WEBSOCKETS_ENABLED: true
             TELEMETRY: false
             FILES_MAX_UPLOAD_SIZE: 50mb
