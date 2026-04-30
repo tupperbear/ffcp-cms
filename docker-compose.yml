@@ -75,6 +75,7 @@ services:
             ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 12000
             WEBSOCKETS_ENABLED: true
             TELEMETRY: false
+            FILES_MAX_UPLOAD_SIZE: 50mb
 
 volumes:
     directus_uploads:
