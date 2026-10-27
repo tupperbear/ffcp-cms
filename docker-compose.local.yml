@@ -63,8 +63,8 @@ services:
 
             # After first successful login, remove the admin email/password env. variables below
             # as these will now be stored in the database.
-            ADMIN_EMAIL: "admin@example.com"
-            ADMIN_PASSWORD: "kentville"
+            ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+            ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
 
             EMAIL_FROM: "notifications@tupp.dev"
             EMAIL_TRANSPORT: "smtp"
