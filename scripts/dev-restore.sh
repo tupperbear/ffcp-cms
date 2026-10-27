@@ -35,4 +35,8 @@ echo "== Deactivating flows"
 "${COMPOSE[@]}" exec -T database psql -U directus -d directus -c \
 	"update directus_flows set status = 'inactive' where status = 'active' returning name, trigger;"
 
+echo "== Removing Marketplace extension entries (extensions are baked into the image)"
+"${COMPOSE[@]}" exec -T database psql -U directus -d directus -c \
+	"delete from directus_extensions where source = 'registry' returning folder;"
+
 echo "== Done. Start Directus with: docker compose -f docker-compose.dev.yml up -d directus"

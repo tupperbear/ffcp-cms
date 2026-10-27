@@ -1,4 +1,5 @@
-# Local copy of production for migration/upgrade testing.
+# Local copy of production for migration/upgrade testing, using the Dockerfile
+# image with extensions baked in.
 # Restore a prod backup into it with: scripts/dev-restore.sh <backup-dir>
 services:
     database:
@@ -18,13 +19,16 @@ services:
             retries: 10
 
     directus:
-        image: directus/directus:${DIRECTUS_VERSION:-11.5.1}
+        image: ffcp-directus:dev
+        build:
+            context: .
+            args:
+                DIRECTUS_VERSION: ${DIRECTUS_VERSION:-11.17.4}
         ports:
             - 127.0.0.1:8055:8055
         volumes:
             - ./.dev/uploads:/directus/uploads
             - ./.dev/templates:/directus/templates
-            - ./.dev/extensions:/directus/extensions
         depends_on:
             database:
                 condition: service_healthy
@@ -44,13 +48,8 @@ services:
 
             # Notifications: no SMTP locally, so nothing is ever emailed
 
-            # Storage (same as prod: extensions live in the "local" storage location)
+            # Storage
             STORAGE_LOCATIONS: "local"
-
-            # Extensions
-            EXTENSIONS_LOCATION: "local"
-            EXTENSIONS_AUTO_RELOAD: true
-            MARKETPLACE_TRUST: "all"
 
             # CORS
             CORS_ENABLED: "true"
@@ -65,8 +64,9 @@ services:
 
             # Misc
             ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 12000
-            EXTENSIONS_REDUCE_ON_UPLOAD_QUALITY: 80
-            EXTENSIONS_REDUCE_ON_UPLOAD_MAXSIZE: 2000
+            EXTENSIONS_IMAGE_UPLOAD_RESIZER_FORMAT: "webp"
+            EXTENSIONS_IMAGE_UPLOAD_RESIZER_QUALITY_WEBP: 80
+            EXTENSIONS_IMAGE_UPLOAD_RESIZER_MAXSIZE: 2000
             WEBSOCKETS_ENABLED: true
             TELEMETRY: false
             FILES_MAX_UPLOAD_SIZE: 50mb
