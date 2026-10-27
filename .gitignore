@@ -4,3 +4,5 @@ data
 database
 templates
 uploads
+.dev
+.DS_Store

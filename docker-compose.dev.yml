@@ -1,0 +1,75 @@
+# Local copy of production for migration/upgrade testing.
+# Restore a prod backup into it with: scripts/dev-restore.sh <backup-dir>
+services:
+    database:
+        image: postgres:15.19
+        ports:
+            - 127.0.0.1:5433:5432
+        volumes:
+            - dev_database:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: "directus"
+            POSTGRES_PASSWORD: "directus"
+            POSTGRES_DB: "directus"
+        healthcheck:
+            test: ["CMD", "pg_isready", "--host=localhost", "--username=directus"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+    directus:
+        image: directus/directus:${DIRECTUS_VERSION:-11.5.1}
+        ports:
+            - 127.0.0.1:8055:8055
+        volumes:
+            - ./.dev/uploads:/directus/uploads
+            - ./.dev/templates:/directus/templates
+            - ./.dev/extensions:/directus/extensions
+        depends_on:
+            database:
+                condition: service_healthy
+        environment:
+            # General
+            SECRET: "local-dev-only-secret"
+            PUBLIC_URL: "http://localhost:8055"
+
+            # Database
+            DB_CLIENT: "pg"
+            DB_CONNECTION_STRING: "postgres://directus:directus@database:5432/directus"
+
+            # Cache
+            CACHE_ENABLED: "true"
+            CACHE_AUTO_PURGE: "true"
+            CACHE_STORE: "memory"
+
+            # Notifications: no SMTP locally, so nothing is ever emailed
+
+            # Storage (same as prod: extensions live in the "local" storage location)
+            STORAGE_LOCATIONS: "local"
+
+            # Extensions
+            EXTENSIONS_LOCATION: "local"
+            EXTENSIONS_AUTO_RELOAD: true
+            MARKETPLACE_TRUST: "all"
+
+            # CORS
+            CORS_ENABLED: "true"
+            CORS_ORIGIN: "http://localhost:4321"
+            CORS_CREDENTIALS: "true"
+
+            # CSP (same as prod)
+            CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC: "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,i.vimeocdn.com 'unsafe-eval',i.ytimg.com 'unsafe-eval'"
+            CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC: "https://ffcp-website-preview.netlify.app,https://www.youtube-nocookie.com,https://player.vimeo.com,http://localhost:4321"
+            CONTENT_SECURITY_POLICY_DIRECTIVES__SCRIPT_SRC: "array:'self', player.vimeo.com 'unsafe-eval', www.youtube.com 'unsafe-eval', www.youtube.com/iframe_api 'unsafe-eval'"
+            CONTENT_SECURITY_POLICY_DIRECTIVES__MEDIA_SRC: "array:'self', cdn.plyr.io"
+
+            # Misc
+            ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION: 12000
+            EXTENSIONS_REDUCE_ON_UPLOAD_QUALITY: 80
+            EXTENSIONS_REDUCE_ON_UPLOAD_MAXSIZE: 2000
+            WEBSOCKETS_ENABLED: true
+            TELEMETRY: false
+            FILES_MAX_UPLOAD_SIZE: 50mb
+
+volumes:
+    dev_database:
