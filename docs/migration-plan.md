@@ -271,14 +271,22 @@ Shrink images in the Data Studio before they're uploaded, instead of resizing th
 
 Images are already copied into the static build (63 in `/_astro/`), but 10 of the 54 pages link straight to the CMS for **24 PDFs (51 MB) and 4 MP4s (31 MB)**. Visitors downloading them wake the Fly machine (2–3 s when it's idle).
 
-- [ ] Add an Astro integration to `../site` (static builds only; preview builds keep CMS links) that, after the build:
-  1. Finds links to `<DIRECTUS_ASSETS_URL>/assets/<id>` in the built HTML.
-  2. Downloads each file once into the build as `/downloads/<id>/<filename_download>`.
-  3. Rewrites the links to point at the local copies.
+- [x] Astro integration `../site/src/integrations/local-downloads.ts` (site commit `d3a70e5`, 2026-10-28). Static builds only; preview builds keep CMS links. In `astro:build:done`, listed last so it also covers `llms-full.txt`, it:
+  1. Finds bare links to `<DIRECTUS_ASSETS_URL>/assets/<id>` in the built HTML and `.txt` files.
+  2. Copies each file into the build as `/downloads/<id>/<filename_download>` (filename made URL-safe; files with the same name stay apart by id).
+  3. Rewrites the links: root-relative in HTML, absolute `https://familyforestcarbon.org/…` in the llms files.
+  - Fails the build if a download fails or is short, so links to the CMS never ship. Netlify keeps the previous deploy live.
+  - Any other raw CMS URL left in the HTML (e.g. an image from a host missing from `image.domains`) is copied too, so the live site never depends on the CMS.
 - [x] Netlify plan checked by owner (2026-10-28): bandwidth is fine, so **move both the PDFs and the 4 MP4s**.
-- [ ] Optional: cache downloads between builds (each build re-downloads ~82 MB otherwise).
+- [x] Cache between builds: `node_modules/.astro/downloads/` (Astro's `cacheDir`), keyed on id + size + modified date, so a replaced file is fetched again. Netlify should keep it with `node_modules`; check the first deploy logs for "N from cache".
+- **Tested (2026-10-28)** against `ffcp-cms` via the localhost proxy:
+  - 28 downloads (85.6 MB), links rewritten in 11 files, 0 CMS links left.
+  - With the rewrite undone, **0 differences** vs the production build.
+  - All 28 files are **byte-identical to the VPS originals**.
+  - Second build: 28 of 28 from cache.
+- [ ] Owner: push the site (Netlify deploys the live site). Then check a download on `/forester-training-resources/`, plus the deploy log.
 - Freshness: a replaced file updates on the next site build, the same as all other content.
-- Doing this **before cutover** would mean visitors never touch the CMS during the move.
+- Live before cutover, so visitors never touch the CMS during the move. At cutover only `DIRECTUS_ASSETS_URL` changes; builds then fetch from `cms.familyforestcarbon.org`.
 
 ### Cloudflare cache in front of the CMS: skipped (owner, 2026-10-28)
 
