@@ -284,7 +284,11 @@ Images are already copied into the static build (63 in `/_astro/`), but 10 of th
   - With the rewrite undone, **0 differences** vs the production build.
   - All 28 files are **byte-identical to the VPS originals**.
   - Second build: 28 of 28 from cache.
-- [ ] Owner: push the site (Netlify deploys the live site). Then check a download on `/forester-training-resources/`, plus the deploy log.
+- [x] **Live (2026-10-28)**: pushed, and Netlify deployed in ~50 s. Deploy log: "28 downloads (85.6 MB, 0 from cache)".
+  - All 56 sitemap pages have 0 CMS asset links.
+  - All 28 `/downloads/…` URLs return 200 with the right type and size.
+  - All 41 `llms-full.txt` links are local.
+- [ ] Next deploy's log should say "28 from cache". If it says 0, Netlify isn't keeping `node_modules/.astro` between builds. That's harmless, but each build then fetches 85 MB from the CMS.
 - Freshness: a replaced file updates on the next site build, the same as all other content.
 - Live before cutover, so visitors never touch the CMS during the move. At cutover only `DIRECTUS_ASSETS_URL` changes; builds then fetch from `cms.familyforestcarbon.org`.
 
