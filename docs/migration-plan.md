@@ -305,7 +305,7 @@ Images are already copied into the static build (63 in `/_astro/`), but 10 of th
   - All 56 sitemap pages have 0 CMS asset links.
   - All 28 `/downloads/…` URLs return 200 with the right type and size.
   - All 41 `llms-full.txt` links are local.
-- [ ] Next deploy's log should say "28 from cache". If it says 0, Netlify isn't keeping `node_modules/.astro` between builds. That's harmless, but each build then fetches 85 MB from the CMS.
+- [x] Netlify keeps the cache: the second deploy (2026-10-28) logged "28 downloads (85.6 MB, 28 from cache)".
 - Freshness: a replaced file updates on the next site build, the same as all other content.
 - Live before cutover, so visitors never touch the CMS during the move. At cutover only `DIRECTUS_ASSETS_URL` changes; builds then fetch from `cms.familyforestcarbon.org`.
 
