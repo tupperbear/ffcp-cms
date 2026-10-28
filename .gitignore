@@ -6,3 +6,5 @@ templates
 uploads
 .dev
 .DS_Store
+.env.*
+!.env.example
