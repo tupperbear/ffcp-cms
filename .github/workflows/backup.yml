@@ -22,7 +22,7 @@ jobs:
       ASSETS_R2_BUCKET: ffcp-cms-assets
       BACKUP_R2_BUCKET: ffcp-cms-snapshots
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install rclone
         run: |
