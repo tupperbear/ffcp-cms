@@ -33,7 +33,7 @@ primary_region = "iad"
 
     # CSP (same as prod)
     CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC = "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,i.vimeocdn.com 'unsafe-eval',i.ytimg.com 'unsafe-eval'"
-    CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC = "https://ffcp-website-preview.netlify.app,https://www.youtube-nocookie.com,https://player.vimeo.com,http://localhost:4321"
+    CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC = "https://ffcp-website-preview.netlify.app,https://ffcp-website-preview-test.netlify.app,https://www.youtube-nocookie.com,https://player.vimeo.com,http://localhost:4321"
     CONTENT_SECURITY_POLICY_DIRECTIVES__SCRIPT_SRC = "array:'self', player.vimeo.com 'unsafe-eval', www.youtube.com 'unsafe-eval', www.youtube.com/iframe_api 'unsafe-eval'"
     CONTENT_SECURITY_POLICY_DIRECTIVES__MEDIA_SRC = "array:'self', cdn.plyr.io"
 
