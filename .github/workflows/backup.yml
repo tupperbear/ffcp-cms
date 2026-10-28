@@ -1,0 +1,44 @@
+name: Nightly backup
+
+on:
+  schedule:
+    - cron: "17 7 * * *" # 07:17 UTC, ~3am US Eastern
+  workflow_dispatch:
+
+concurrency:
+  group: backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # pg_dump must match Neon's Postgres major version
+    container: postgres:18
+    env:
+      # Not RCLONE_*: rclone reads those variables as its own flags
+      INSTALL_RCLONE: v1.68.2
+      BACKUP_ENV: test
+      ASSETS_R2_BUCKET: ffcp-cms-assets
+      BACKUP_R2_BUCKET: ffcp-cms-snapshots
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install rclone
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq ca-certificates curl unzip >/dev/null
+          arch=$(dpkg --print-architecture)
+          curl -fsSLo /tmp/rclone.zip "https://downloads.rclone.org/$INSTALL_RCLONE/rclone-$INSTALL_RCLONE-linux-$arch.zip"
+          unzip -q -j /tmp/rclone.zip '*/rclone' -d /usr/local/bin
+          rclone version | head -1
+
+      - name: Back up database and files
+        env:
+          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          ASSETS_R2_KEY: ${{ secrets.ASSETS_R2_KEY }}
+          ASSETS_R2_SECRET: ${{ secrets.ASSETS_R2_SECRET }}
+          BACKUP_R2_KEY: ${{ secrets.BACKUP_R2_KEY }}
+          BACKUP_R2_SECRET: ${{ secrets.BACKUP_R2_SECRET }}
+        run: scripts/backup.sh
