@@ -219,6 +219,23 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
 - **Email**: prod secrets in `.env.fly.prod` (gitignored, 600), using Directus's names (`EMAIL_SMTP_HOST/PORT/USER/PASSWORD`, `EMAIL_FROM`; the compose file's `EMAIL_HOST` etc. were only aliases). `EMAIL_TRANSPORT=smtp` goes in the prod `fly.toml`. The test app's `.env.fly` has no email settings.
 - **New `SECRET`** for production (generated into `.env.fly.prod`). Editors log in again once after cutover.
 - **DNS for `familyforestcarbon.org` is run by another party.** Coordinate early: lower the TTL (currently **14400 s = 4 h** on `cms`/`assets`, both → VPS `152.53.241.119`), add `_acme-challenge` + `_fly-ownership` records ahead of time, then switch the records at cutover.
+  - [x] Certificate added on `ffcp-cms` (`fly certs add cms.familyforestcarbon.org`, 2026-10-28). Request emailed to the DNS owner (2026-10-28); **waiting on their reply**.
+  - [ ] **Now** (no effect on the live site):
+    1. TTL → 300 s on `cms` and `assets`.
+    2. Add the certificate records:
+
+       | Type | Name | Value |
+       |---|---|---|
+       | CNAME | `_acme-challenge.cms.familyforestcarbon.org` | `cms.familyforestcarbon.org.3pknz53.flydns.net.` |
+       | TXT | `_fly-ownership.cms.familyforestcarbon.org` | `app-3pknz53` |
+
+    - Afterwards: `fly certs check cms.familyforestcarbon.org -a ffcp-cms` should show it issued.
+    - Check the records with `dig +noall +answer cms.familyforestcarbon.org` and `dig TXT _fly-ownership.cms.familyforestcarbon.org`.
+  - [ ] **Cutover** (agreed time, ≥ 4 h after the TTL change):
+    - `cms` → A `66.241.125.156` (shared IPv4) + AAAA `2a09:8280:1::1d3:b6eb:0` (dedicated IPv6).
+    - **Delete** `assets`.
+    - Rollback: `cms` → A `152.53.241.119` (the VPS stays read-only).
+  - [ ] **After ~2 weeks:** restore the usual TTL on `cms`. Keep the `_acme-challenge` and `_fly-ownership` records, which are used for certificate renewals.
 - **`assets.familyforestcarbon.org` to be retired** (owner), once downloads are served from Netlify. The live site currently links **all PDF/MP4 downloads to `assets.familyforestcarbon.org/assets/<id>`** (e.g. 13 on `/forester-training-resources/`).
 - **Netlify downloads change (Phase 5) moves ahead of cutover**, then **`assets.familyforestcarbon.org` is retired at cutover** (owner, 2026-10-28): it is not kept as a transition alias. Old external links to `assets.…/assets/<id>` will stop working; risk accepted.
 - **VPS step**: the owner runs one command, `scp scripts/vps-backup.sh netcup:ffcp-vps-backup.sh && ssh -t netcup 'bash ffcp-vps-backup.sh'` (one sudo prompt, read-only on prod). I download the result with rsync (no sudo).
