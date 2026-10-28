@@ -1,0 +1,72 @@
+# Fly.io config for production. Deploy with: fly deploy -c fly.prod.toml
+# Secrets (fly secrets import -a ffcp-cms < .env.fly.prod): SECRET,
+# DB_CONNECTION_STRING, STORAGE_R2_KEY, STORAGE_R2_SECRET, STORAGE_R2_BUCKET,
+# STORAGE_R2_ENDPOINT, EMAIL_FROM, EMAIL_SMTP_HOST, EMAIL_SMTP_PORT,
+# EMAIL_SMTP_USER, EMAIL_SMTP_PASSWORD
+app = "ffcp-cms"
+primary_region = "iad"
+
+[build]
+    dockerfile = "Dockerfile"
+
+[env]
+    # Rehearsal: https://ffcp-cms.fly.dev. At cutover: https://cms.familyforestcarbon.org
+    PUBLIC_URL = "https://ffcp-cms.fly.dev"
+
+    # Database (Neon). Let idle connections close before Neon suspends the
+    # compute (5 min), so nothing reuses a dead connection after it wakes.
+    DB_CLIENT = "pg"
+    DB_POOL__MIN = "0"
+    DB_POOL__IDLE_TIMEOUT_MILLIS = "60000"
+
+    # Cache (one machine, so memory is fine)
+    CACHE_ENABLED = "true"
+    CACHE_AUTO_PURGE = "true"
+    CACHE_STORE = "memory"
+
+    # Notifications (SMTP credentials are secrets)
+    EMAIL_TRANSPORT = "smtp"
+
+    # Storage (R2)
+    STORAGE_LOCATIONS = "r2"
+    STORAGE_R2_DRIVER = "s3"
+    STORAGE_R2_REGION = "auto"
+
+    # CORS
+    CORS_ENABLED = "true"
+    CORS_ORIGIN = "http://localhost:4321"
+    CORS_CREDENTIALS = "true"
+
+    # CSP (same as prod)
+    CONTENT_SECURITY_POLICY_DIRECTIVES__IMG_SRC = "array:'self',data:,blob:,https://raw.githubusercontent.com,https://avatars.githubusercontent.com,i.vimeocdn.com 'unsafe-eval',i.ytimg.com 'unsafe-eval'"
+    CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC = "https://ffcp-website-preview.netlify.app,https://www.youtube-nocookie.com,https://player.vimeo.com,http://localhost:4321"
+    CONTENT_SECURITY_POLICY_DIRECTIVES__SCRIPT_SRC = "array:'self', player.vimeo.com 'unsafe-eval', www.youtube.com 'unsafe-eval', www.youtube.com/iframe_api 'unsafe-eval'"
+    CONTENT_SECURITY_POLICY_DIRECTIVES__MEDIA_SRC = "array:'self', cdn.plyr.io"
+
+    # Misc
+    ASSETS_TRANSFORM_IMAGE_MAX_DIMENSION = "12000"
+    EXTENSIONS_IMAGE_UPLOAD_RESIZER_FORMAT = "webp"
+    EXTENSIONS_IMAGE_UPLOAD_RESIZER_QUALITY_WEBP = "80"
+    EXTENSIONS_IMAGE_UPLOAD_RESIZER_MAXSIZE = "2000"
+    WEBSOCKETS_ENABLED = "true"
+    TELEMETRY = "false"
+    FILES_MAX_UPLOAD_SIZE = "50mb"
+
+[http_service]
+    internal_port = 8055
+    force_https = true
+    auto_stop_machines = "suspend"
+    auto_start_machines = true
+    min_machines_running = 0
+
+    [[http_service.checks]]
+        method = "GET"
+        path = "/server/ping"
+        interval = "30s"
+        timeout = "5s"
+        grace_period = "60s"
+
+[[vm]]
+    memory = "1gb"
+    cpu_kind = "shared"
+    cpus = 1
