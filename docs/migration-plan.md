@@ -230,7 +230,9 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
        | TXT | `_fly-ownership.cms.familyforestcarbon.org` | `app-3pknz53` |
 
     - Afterwards: `fly certs check cms.familyforestcarbon.org -a ffcp-cms` should show it issued.
-    - Check the records with `dig +noall +answer cms.familyforestcarbon.org` and `dig TXT _fly-ownership.cms.familyforestcarbon.org`.
+    - Check the records with `dig +noall +answer cms.familyforestcarbon.org` and `dig TXT _fly-ownership.cms.familyforestcarbon.org`. (Local `dig` returns nothing from the sandbox; use DNS-over-HTTPS: `curl -s -H 'accept: application/dns-json' 'https://dns.google/resolve?name=<name>&type=<type>'`.)
+    - **Done by the DNS owner (checked 2026-10-31):** TTL is **900 s** (not 300) on `cms` and `assets`. `_acme-challenge` CNAME is correct. **Certificate issued** (`fly certs check`: Issued, rsa + ecdsa, Let's Encrypt).
+    - [ ] **To fix:** `_fly-ownership` was created as a **CNAME** → `app-3pknz53.` instead of a **TXT** record with value `app-3pknz53`. Not blocking (the cert issued via `_acme-challenge`), but ask them to change it to TXT.
   - [ ] **Cutover** (agreed time, ≥ 4 h after the TTL change):
     - `cms` → A `66.241.125.156` (shared IPv4) + AAAA `2a09:8280:1::1d3:b6eb:0` (dedicated IPv6).
     - **Delete** `assets`.
