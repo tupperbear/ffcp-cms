@@ -261,15 +261,24 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
   - [x] **Runbook script `scripts/migration/migrate.sh <backup> [rehearsal|cutover]`** (2026-10-28). Steps: preflight → download + verify → extract uploads → **reference build from the production CMS** → Neon restore (`neon-restore.sh`) → **sort fix from the production API** → R2 sync → deploy `ffcp-cms` (`-e PUBLIC_URL=…` by mode) → **verify**: new-CMS build vs production build (`compare-site.py`) + order vs live site (`check-live-order.py`). It asks before wiping Neon and before deploying (`CONFIRM=0` skips the prompts). Timings go to `.migration/rehearsal/<backup>.log`.
   - **Rehearsal 3 (script, 2026-10-28): 0 differences vs production, 0 reordered pages of 53, ~3.5 min** end to end.
   - Pitfall fixed: **Astro's content store (`node_modules/.astro/data-store.json`) carried content over between builds against different CMSes**, so a reference build showed the rehearsal app's test edit. `build-site.sh` now deletes it before every build. Earlier comparisons were consistent with fresh fetches, but treat any pre-fix result with that in mind.
-- [ ] **Cutover:**
-  1. Content freeze
-  2. Final dump and file sync
-  3. DNS switch: `cms.familyforestcarbon.org` → `ffcp-cms` (certificate records added beforehand). `assets.familyforestcarbon.org` is retired.
-     - In Netlify, set `DIRECTUS_ASSETS_URL=https://cms.familyforestcarbon.org` on **both the live site and `ffcp-website-preview`** (the Netlify downloads change must already be live). The preview site keeps `DIRECTUS_API_URL=https://cms.familyforestcarbon.org`, so live preview follows the DNS switch automatically. During the rehearsal, previews from `ffcp-cms.fly.dev` show the old CMS, which is expected.
-  4. Fill in the one-time "project owner" form in the Studio (or set `PROJECT_OWNER`). It sends the owner email and org to Directus.
-  5. Rebuild the site
-- [ ] Keep the same `SECRET` and the static token's user so the site keeps working without config changes.
-- [ ] Keep the VPS running read-only for ~2 weeks as rollback, then decommission it.
+- [ ] **Cutover day checklist** (planned Monday 2026-11-02; agree the DNS window with the DNS owner beforehand):
+  - [ ] **Before:** `fly.prod.toml` now has `PUBLIC_URL = "https://cms.familyforestcarbon.org"` (committed 2026-10-31), so a plain `fly deploy` can't switch it back to `ffcp-cms.fly.dev`. Rehearsals still pass `-e PUBLIC_URL=…` via `migrate.sh`. Don't plain-deploy `ffcp-cms` before the cutover.
+  1. [ ] **Content freeze**: tell editors to stop editing on the old CMS.
+  2. [ ] **VPS backup**: owner runs `scp scripts/vps-backup.sh netcup:ffcp-vps-backup.sh && ssh -t netcup 'bash ffcp-vps-backup.sh'`, then I rsync the result.
+  3. [ ] **`scripts/migration/migrate.sh <backup> cutover`** (~4–5 min): Neon restore with flows kept (`KEEP_FLOWS=1`), sort fix from the production API, R2 sync, deploy with `PUBLIC_URL=https://cms.familyforestcarbon.org`, then verify: **0 differences** vs production's build and **0 reordered pages**. Don't continue past this step unless both pass.
+  4. [ ] **DNS switch** (DNS owner): `cms` → A `66.241.125.156` + AAAA `2a09:8280:1::1d3:b6eb:0`; **delete** `assets`. Check with DNS-over-HTTPS until it shows the Fly IPs. TTL is 900 s, so some clients reach the VPS for ~15 min; the freeze covers that.
+  5. [ ] **Netlify**: `DIRECTUS_ASSETS_URL=https://cms.familyforestcarbon.org` on **both the live site and `ffcp-website-preview`**. The preview site keeps `DIRECTUS_API_URL=https://cms.familyforestcarbon.org`, so live preview follows the DNS switch. Delete `ffcp-website-preview-test`.
+  6. [ ] **Rebuild the live site.**
+  7. [ ] **Studio**: fill in the one-time "project owner" form (or set `PROJECT_OWNER`). Editors log in again once (new `SECRET`). The site's static token lives in the database, so it carries over.
+  8. [ ] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (update `DB_CONNECTION_STRING` if needed), then a manual run. In R2, add the `prod/` lifecycle rules (`prod/db/daily/` 35 d, `prod/db/monthly/` 365 d) and bucket lock (`prod/db/`, 30 d).
+  9. [ ] **Test**:
+     - Studio login and an edit at `https://cms.familyforestcarbon.org`; an image upload shows up from R2.
+     - Live preview from the Studio loads and reloads on save.
+     - The "Deploy Website" flow triggers a Netlify build.
+     - Live site: pages and images load; downloads come from Netlify, not the CMS.
+     - `fly certs check cms.familyforestcarbon.org -a ffcp-cms` still shows Issued.
+  - **Rollback**: DNS owner points `cms` back to A `152.53.241.119` (the VPS stays up, read-only) and restores `assets`; set Netlify `DIRECTUS_ASSETS_URL` back. Edits made on the new CMS would be lost.
+- [ ] **After ~2 weeks**: restore the usual TTL on `cms` (see the DNS notes above), delete `ffcp-cms-test`, decommission the VPS (keep `ffcp-cms-backups` until then).
 
 ## Phase 5 – After the migration
 

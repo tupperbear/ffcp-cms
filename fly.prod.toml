@@ -10,8 +10,8 @@ primary_region = "iad"
     dockerfile = "Dockerfile"
 
 [env]
-    # Rehearsal: https://ffcp-cms.fly.dev. At cutover: https://cms.familyforestcarbon.org
-    PUBLIC_URL = "https://ffcp-cms.fly.dev"
+    # Production domain. Rehearsals override it with -e PUBLIC_URL=https://ffcp-cms.fly.dev (migrate.sh does this).
+    PUBLIC_URL = "https://cms.familyforestcarbon.org"
 
     # Database (Neon). Let idle connections close before Neon suspends the
     # compute (5 min), so nothing reuses a dead connection after it wakes.
