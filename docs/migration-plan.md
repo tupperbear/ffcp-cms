@@ -233,7 +233,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
     - Check the records with `dig +noall +answer cms.familyforestcarbon.org` and `dig TXT _fly-ownership.cms.familyforestcarbon.org`. (Local `dig` returns nothing from the sandbox; use DNS-over-HTTPS: `curl -s -H 'accept: application/dns-json' 'https://dns.google/resolve?name=<name>&type=<type>'`.)
     - **Done by the DNS owner (checked 2026-10-31):** TTL is **900 s** (not 300) on `cms` and `assets`. `_acme-challenge` CNAME is correct. **Certificate issued** (`fly certs check`: Issued, rsa + ecdsa, Let's Encrypt).
     - [ ] **To fix:** `_fly-ownership` was created as a **CNAME** → `app-3pknz53.` instead of a **TXT** record with value `app-3pknz53`. Not blocking (the cert issued via `_acme-challenge`), but ask them to change it to TXT.
-  - [ ] **Cutover** (agreed time, ≥ 4 h after the TTL change):
+  - [x] **Cutover** (2026-11-02):
     - `cms` → A `66.241.125.156` (shared IPv4) + AAAA `2a09:8280:1::1d3:b6eb:0` (dedicated IPv6).
     - **Delete** `assets`.
     - Rollback: `cms` → A `152.53.241.119` (the VPS stays read-only).
@@ -261,7 +261,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
   - [x] **Runbook script `scripts/migration/migrate.sh <backup> [rehearsal|cutover]`** (2026-10-28). Steps: preflight → download + verify → extract uploads → **reference build from the production CMS** → Neon restore (`neon-restore.sh`) → **sort fix from the production API** → R2 sync → deploy `ffcp-cms` (`-e PUBLIC_URL=…` by mode) → **verify**: new-CMS build vs production build (`compare-site.py`) + order vs live site (`check-live-order.py`). It asks before wiping Neon and before deploying (`CONFIRM=0` skips the prompts). Timings go to `.migration/rehearsal/<backup>.log`.
   - **Rehearsal 3 (script, 2026-10-28): 0 differences vs production, 0 reordered pages of 53, ~3.5 min** end to end.
   - Pitfall fixed: **Astro's content store (`node_modules/.astro/data-store.json`) carried content over between builds against different CMSes**, so a reference build showed the rehearsal app's test edit. `build-site.sh` now deletes it before every build. Earlier comparisons were consistent with fresh fetches, but treat any pre-fix result with that in mind.
-- [ ] **Cutover day checklist** (run Monday 2026-11-02; agree the DNS window with the DNS owner beforehand):
+- [x] **Cutover day checklist** (done Monday 2026-11-02; agree the DNS window with the DNS owner beforehand):
   - **What happened:** the DNS owner switched `cms` to Fly **before** steps 1–3 (seen 21:25 UTC), so for ~25 min `cms` served the Oct 28 rehearsal data. Freeze → backup `20261102-2230` → `migrate.sh` cutover (finished 21:48 UTC) replaced it. Because `cms` now resolves to Fly, `migrate.sh` pins reads of the old CMS to the VPS IP (`PROD_IP`, default `152.53.241.119`) inside its Caddy proxy (`--add-host`); the sort fix also goes through that proxy now.
   - **Node:** the site is on Astro 7 (`../site` `b64bea5`) and needs Node ≥ 22.23.4; run `migrate.sh` with nvm's 24.22.1 (`../site/.nvmrc`) first on `PATH`. The first cutover attempt failed at step 3 on Node 22.9.0 (before any change).
   - [ ] **Before:** `fly.prod.toml` now has `PUBLIC_URL = "https://cms.familyforestcarbon.org"` (committed 2026-10-31), so a plain `fly deploy` can't switch it back to `ffcp-cms.fly.dev`. Rehearsals still pass `-e PUBLIC_URL=…` via `migrate.sh`. Don't plain-deploy `ffcp-cms` before the cutover.
@@ -273,7 +273,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
   6. [x] **Rebuild the live site.**
   7. [x] **Studio**: fill in the one-time "project owner" form (or set `PROJECT_OWNER`). Editors log in again once (new `SECRET`). The site's static token lives in the database, so it carries over.
   8. [x] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (pushed as `d946fb1`). Manual run 2026-11-02: `prod/db/daily/directus-2026-11-02T2212Z.dump` (2.3 MB) + `prod/files/` (285 files, 692 MB). R2 `prod/` rules set by owner (2026-11-02). `DB_CONNECTION_STRING` in `.env.fly.prod` equals `.env.fly`'s, so the GitHub secret should already point at the prod database, then a manual run. In R2, add the `prod/` lifecycle rules (`prod/db/daily/` 35 d, `prod/db/monthly/` 365 d) and bucket lock (`prod/db/`, 30 d).
-  9. [ ] **Test**:
+  9. [x] **Test** (2026-11-02: Studio edit + upload, live preview, Deploy Website flow confirmed by owner; cert, DNS, Netlify downloads and images checked):
      - Studio login and an edit at `https://cms.familyforestcarbon.org`; an image upload shows up from R2.
      - Live preview from the Studio loads and reloads on save.
      - The "Deploy Website" flow triggers a Netlify build.
