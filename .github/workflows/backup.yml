@@ -18,7 +18,7 @@ jobs:
     env:
       # Not RCLONE_*: rclone reads those variables as its own flags
       INSTALL_RCLONE: v1.68.2
-      BACKUP_ENV: test
+      BACKUP_ENV: prod
       ASSETS_R2_BUCKET: ffcp-cms-assets
       BACKUP_R2_BUCKET: ffcp-cms-snapshots
     steps:

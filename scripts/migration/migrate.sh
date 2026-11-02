@@ -26,6 +26,9 @@ B=$M/backups/$BACKUP
 W=$M/rehearsal/$BACKUP
 LOG=$M/rehearsal/$BACKUP.log
 PROD_CMS=https://cms.familyforestcarbon.org
+# The old CMS on the VPS. Reads from PROD_CMS are pinned to this IP inside the
+# proxy, so they keep reaching the old CMS once DNS points at Fly.
+PROD_IP=${PROD_IP:-152.53.241.119}
 APP=ffcp-cms
 APP_URL=https://$APP.fly.dev
 mkdir -p "$W" && chmod 700 "$M"
@@ -51,11 +54,14 @@ rclone_r2() {
 }
 # Build the site against a CMS through a localhost proxy, so image handling is
 # the same as for local builds (image.domains allows localhost).
-build_via() {
+proxy_start() {
 	docker rm -f migrate-proxy >/dev/null 2>&1 || true
-	docker run -d --rm --name migrate-proxy -p 127.0.0.1:8055:8055 caddy:2 \
+	docker run -d --rm --name migrate-proxy -p 127.0.0.1:8055:8055 --add-host "${PROD_CMS#https://}:$PROD_IP" caddy:2 \
 		caddy reverse-proxy --from :8055 --to "$1" --change-host-header >/dev/null
 	for _ in $(seq 1 30); do curl -sf http://localhost:8055/server/ping >/dev/null && break; sleep 1; done
+}
+build_via() {
+	proxy_start "$1"
 	"$SCRIPTS/build-site.sh" "$2" >"$W/build-$2.log" 2>&1 || { docker rm -f migrate-proxy >/dev/null; echo "build failed: $W/build-$2.log" >&2; exit 1; }
 	docker rm -f migrate-proxy >/dev/null
 }
@@ -91,7 +97,9 @@ docker run --rm --env-file "$CMS/.env.fly.prod" -v "$B:/b:ro" -v "$W:/s:ro" -v "
 
 step "5 sort fix from the production API"
 psql_neon "-Atc \"select json_agg(json_build_object('many_collection',many_collection,'many_field',many_field,'one_collection',one_collection,'one_field',one_field,'one_allowed_collections',one_allowed_collections,'one_collection_field',one_collection_field,'junction_field',junction_field,'sort_field',sort_field)) from directus_relations\"" >"$W/relations.json"
-DIRECTUS_TOKEN=$(site_token) python3 -I "$SCRIPTS/migration/backfill-sort.py" "$PROD_CMS" "$W/relations.json" "$SCRIPTS/migration/site-requests.txt" >"$W/backfill.sql"
+proxy_start "$PROD_CMS"
+DIRECTUS_TOKEN=$(site_token) python3 -I "$SCRIPTS/migration/backfill-sort.py" http://localhost:8055 "$W/relations.json" "$SCRIPTS/migration/site-requests.txt" >"$W/backfill.sql" || { docker rm -f migrate-proxy >/dev/null; exit 1; }
+docker rm -f migrate-proxy >/dev/null
 psql_neon "-q -v ON_ERROR_STOP=1 -f /s/backfill.sql"
 echo "applied $(grep -c '^update' "$W/backfill.sql") rows"
 
