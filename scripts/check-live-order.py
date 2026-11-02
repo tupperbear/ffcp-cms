@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check that a baseline build shows lists in the same order as the live site.
 
-Usage: scripts/check-live-order.py .migration/baselines/<name> [https://familyforestcarbon.org]
+Usage: scripts/check-live-order.py .migration/baselines/<name> [<site url>, default SITE_URL from migration.env]
 
 Items with no sort value come back in whatever order a restore happens to give,
 which can differ from production. Run this on the fresh baseline before freezing
@@ -29,7 +29,19 @@ def items(page):
     return out
 
 
-def main(baseline, site="https://familyforestcarbon.org"):
+def project_env():
+    """KEY=value settings from migration.env at the repo root (comments stripped)."""
+    env = {}
+    for line in (Path(__file__).resolve().parents[1] / "migration.env").read_text().splitlines():
+        line = line.split(" #")[0].strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            env[k.strip()] = v.strip()
+    return env
+
+
+def main(baseline, site=None):
+    site = (site or project_env()["SITE_URL"]).rstrip("/")
     root = Path(baseline)
     reordered, changed = [], []
     pages = sorted(p for p in root.rglob("index.html") if "pagefind" not in p.parts)

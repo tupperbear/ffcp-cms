@@ -1,19 +1,32 @@
 #!/usr/bin/env bash
-# Build ../site statically against a CMS (default: the local dev CMS) and save the output.
+# Build the site (SITE_DIR in migration.env) statically against a CMS (default:
+# the local dev CMS) and save the output.
 # Usage: [CMS_URL=https://...] scripts/build-site.sh <name>   -> .migration/baselines/<name>/
-# Assumes the site repo is checked out next to this one (../site).
 #
 # The site's astro.config merges .env over the shell env, so the CMS URL is
 # overridden with a temporary .env.production.local (removed on exit).
-# Note: the Netlify adapter always writes to ../site/dist, which this replaces.
+# Note: the Netlify adapter always writes to <site>/dist, which this replaces.
+# Uses the Node version from the site's .nvmrc when nvm has it installed.
 set -euo pipefail
 
 NAME=${1:?usage: scripts/build-site.sh <name>}
 HERE=$(cd "$(dirname "$0")/.." && pwd)
-SITE=$HERE/../site
+. "$HERE/migration.env"
+SITE=$(cd "$HERE" && cd "$SITE_DIR" && pwd)
 OUT=$HERE/.migration/baselines/$NAME
 
 cd "$SITE"
+if [ -f .nvmrc ]; then
+	want=$(tr -d ' \nv' <.nvmrc)
+	nvm_bin=$HOME/.nvm/versions/node/v$want/bin
+	if [ -x "$nvm_bin/node" ]; then
+		PATH=$nvm_bin:$PATH
+	elif [ "$(node -v)" != "v$want" ]; then
+		echo "warning: site wants Node $want (.nvmrc), using $(node -v); install it with: nvm install $want" >&2
+	fi
+fi
+echo "node $(node -v)"
+
 trap 'rm -f "$SITE/.env.production.local"' EXIT
 CMS_URL=${CMS_URL:-http://localhost:8055}
 cat >.env.production.local <<EOF

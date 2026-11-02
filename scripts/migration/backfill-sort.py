@@ -11,13 +11,13 @@ the restored copy of the same production data.
 
 Usage:
   DIRECTUS_TOKEN=<site static token> scripts/migration/backfill-sort.py \
-      https://cms.familyforestcarbon.org <relations.json> <requests.txt> > backfill.sql
+      <old CMS url> <relations.json> <requests.txt> > backfill.sql
 
   relations.json  rows of directus_relations (many_collection, many_field,
                   one_collection, one_field, one_allowed_collections,
                   junction_field, sort_field) as a JSON array
   requests.txt    one request path per line, e.g. "/items/pages?fields=..."
-                  (copied from the Directus request log during a site build)
+                  (capture-site-requests.sh records them from a site build)
 
 It only reads from Directus. Rows the site doesn't receive (drafts) are left as is.
 """

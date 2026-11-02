@@ -3,15 +3,15 @@
 #
 # Usage (from the cms repo): scripts/migration/migrate.sh <backup-name> [rehearsal|cutover]
 #   <backup-name>  folder name printed by the VPS backup, e.g. 20261028-1740.
-#                  Make it first (owner, one sudo prompt):
-#                  scp scripts/vps-backup.sh netcup:ffcp-vps-backup.sh && ssh -t netcup 'bash ffcp-vps-backup.sh'
-#   rehearsal      flows deactivated; PUBLIC_URL stays https://ffcp-cms.fly.dev (default)
-#   cutover        flows kept; PUBLIC_URL=https://cms.familyforestcarbon.org
+#                  Make it first (owner, one sudo prompt): scripts/run-vps-backup.sh
+#   rehearsal      flows deactivated; PUBLIC_URL stays https://$FLY_APP.fly.dev (default)
+#   cutover        flows kept; PUBLIC_URL=https://$PROD_DOMAIN
 #
-# Wipes and replaces the Neon database used by the ffcp-cms app; asks before
-# that and before deploying (CONFIRM=0 to skip the prompts). Only reads from the
-# production CMS (the site's own API requests). Working files and timings go to
-# .migration/ (gitignored); the site repo must be checked out next to this one (../site).
+# Settings (app, domains, VPS) come from migration.env. Wipes and replaces the
+# Neon database used by $FLY_APP; asks before that and before deploying
+# (CONFIRM=0 to skip the prompts). Only reads from the old CMS (the site's own
+# API requests), always via VPS_IP, so it works before and after the DNS switch.
+# Working files and timings go to .migration/ (gitignored).
 set -euo pipefail
 
 BACKUP=${1:?usage: scripts/migration/migrate.sh <backup-name> [rehearsal|cutover]}
@@ -19,17 +19,18 @@ MODE=${2:-rehearsal}
 [[ $MODE == rehearsal || $MODE == cutover ]] || { echo "mode must be rehearsal or cutover" >&2; exit 1; }
 
 CMS=$(cd "$(dirname "$0")/../.." && pwd)
+. "$CMS/migration.env"
 SCRIPTS=$CMS/scripts
-SITE=$CMS/../site
+SITE=$(cd "$CMS" && cd "$SITE_DIR" && pwd)
 M=$CMS/.migration
 B=$M/backups/$BACKUP
 W=$M/rehearsal/$BACKUP
 LOG=$M/rehearsal/$BACKUP.log
-PROD_CMS=https://cms.familyforestcarbon.org
-# The old CMS on the VPS. Reads from PROD_CMS are pinned to this IP inside the
-# proxy, so they keep reaching the old CMS once DNS points at Fly.
-PROD_IP=${PROD_IP:-152.53.241.119}
-APP=ffcp-cms
+PROD_CMS=https://$PROD_DOMAIN
+# Reads from PROD_CMS are pinned to the VPS IP inside the proxy, so they keep
+# reaching the old CMS once DNS points at Fly.
+PROD_IP=$VPS_IP
+APP=$FLY_APP
 APP_URL=https://$APP.fly.dev
 mkdir -p "$W" && chmod 700 "$M"
 
@@ -78,7 +79,7 @@ fi
 echo "ok"
 
 step "1 download + verify backup"
-rsync -a "netcup:ffcp-backup/$BACKUP/" "$B/"
+rsync -a "$VPS_SSH:$VPS_BACKUP_DIR/$BACKUP/" "$B/"
 (cd "$B" && shasum -a 256 -c SHA256SUMS)
 
 step "2 extract uploads"
@@ -120,19 +121,19 @@ build_via "$APP_URL" "$BACKUP-$APP"
 VERIFY_OK=1
 python3 -I "$SCRIPTS/compare-site.py" "$M/baselines/$BACKUP-production" "$M/baselines/$BACKUP-$APP" >"$W/compare.txt" || VERIFY_OK=0
 tail -1 "$W/compare.txt"
-python3 -I "$SCRIPTS/check-live-order.py" "$M/baselines/$BACKUP-$APP" >"$W/live-order.txt" || VERIFY_OK=0
+python3 -I "$SCRIPTS/check-live-order.py" "$M/baselines/$BACKUP-$APP" "$SITE_URL" >"$W/live-order.txt" || VERIFY_OK=0
 tail -1 "$W/live-order.txt"
 [ "$VERIFY_OK" = 1 ] || echo "!! Verification found differences: see $W/compare.txt and $W/live-order.txt"
 
 step "done"
 echo "migrate $BACKUP ($MODE) finished $(date -u +%FT%TZ)" | tee -a "$LOG"
 if [ "$MODE" = cutover ]; then
-	cat <<'EOF'
+	cat <<EOF
 
-Next (manual), see docs/migration-plan.md "Cutover":
-  - DNS: cms.familyforestcarbon.org -> ffcp-cms; retire assets.familyforestcarbon.org
-  - Netlify: DIRECTUS_ASSETS_URL=https://cms.familyforestcarbon.org on the live and preview sites
-  - Studio: project owner form; backups workflow BACKUP_ENV=prod; R2 prod/ lifecycle + lock
+Next (manual), see docs/migration-playbook.md "Cutover day":
+  - DNS: $PROD_DOMAIN -> $APP${OLD_ASSETS_DOMAIN:+; retire $OLD_ASSETS_DOMAIN}
+  - Netlify: DIRECTUS_ASSETS_URL=$PROD_CMS on the live and preview sites
   - Rebuild the live site
+  - Studio: project owner form; backups workflow BACKUP_ENV=prod; R2 prod/ lifecycle + lock
 EOF
 fi

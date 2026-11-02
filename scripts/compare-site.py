@@ -8,8 +8,8 @@ Ignored:
 - random UUIDs that components generate per build (element ids, script tokens):
   any UUID not directly after a "/". UUIDs in URL paths, such as Directus
   /assets/<id> links, are still compared.
-- which CMS the build used: the local, test and production CMS URLs are
-  treated as the same.
+- which CMS the build used: the local, test, Fly and production CMS URLs
+  (hosts from migration.env) are treated as the same.
 """
 import difflib
 import re
@@ -18,9 +18,24 @@ from pathlib import Path
 
 UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 NON_URL_UUID = re.compile(r"(?<!/)" + UUID)
-CMS_URL = re.compile(
-    r"https?://(?:localhost:8055|ffcp-cms-test\.(?:fly|tupp)\.dev|(?:cms|assets)\.familyforestcarbon\.org)"
-)
+def project_env():
+    """KEY=value settings from migration.env at the repo root (comments stripped)."""
+    env = {}
+    for line in (Path(__file__).resolve().parents[1] / "migration.env").read_text().splitlines():
+        line = line.split(" #")[0].strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            env[k.strip()] = v.strip()
+    return env
+
+
+ENV = project_env()
+CMS_HOSTS = ["localhost:8055"] + [
+    h for h in (ENV.get("PROD_DOMAIN"), ENV.get("OLD_ASSETS_DOMAIN"), ENV.get("TEST_DOMAIN"),
+                ENV.get("FLY_TEST_APP", "") + ".fly.dev", ENV.get("FLY_APP", "") + ".fly.dev")
+    if h and h != ".fly.dev"
+]
+CMS_URL = re.compile(r"https?://(?:" + "|".join(map(re.escape, CMS_HOSTS)) + ")")
 IGNORED_DIRS = {"pagefind"}
 
 

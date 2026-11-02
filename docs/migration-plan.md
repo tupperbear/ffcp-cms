@@ -1,5 +1,7 @@
 # FFCP CMS Migration Plan
 
+> **Reusing this for another CMS?** Start from [`migration-playbook.md`](migration-playbook.md); this file is the FFCP record it was distilled from.
+
 Migrate the FFCP Directus CMS off the self-managed VPS (Dokploy) onto **Fly.io + Neon Postgres + Cloudflare R2**, upgrading from Directus **11.5.1** to the latest release along the way.
 
 > **Where things live** (moved here from a separate `cms-migration` folder on 2026-10-28): paths below are relative to this repo, and `../site` is the website repo checked out next to it. Scripts kept after the migration are in `scripts/`; one-time migration scripts are in `scripts/migration/` (delete them after decommissioning the VPS). Working files (production backups, site builds, rehearsal logs) are in **`.migration/`**, which is gitignored and private: it contains production dumps, so never commit it.
@@ -272,7 +274,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
   5. [x] **Netlify**: `DIRECTUS_ASSETS_URL=https://cms.familyforestcarbon.org` on **both the live site and `ffcp-website-preview`**. The preview site keeps `DIRECTUS_API_URL=https://cms.familyforestcarbon.org`, so live preview follows the DNS switch. Delete `ffcp-website-preview-test`.
   6. [x] **Rebuild the live site.**
   7. [x] **Studio**: fill in the one-time "project owner" form (or set `PROJECT_OWNER`). Editors log in again once (new `SECRET`). The site's static token lives in the database, so it carries over.
-  8. [x] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (pushed as `d946fb1`). Manual run 2026-11-02: `prod/db/daily/directus-2026-11-02T2212Z.dump` (2.3 MB) + `prod/files/` (285 files, 692 MB). R2 `prod/` rules set by owner (2026-11-02). `DB_CONNECTION_STRING` in `.env.fly.prod` equals `.env.fly`'s, so the GitHub secret should already point at the prod database, then a manual run. In R2, add the `prod/` lifecycle rules (`prod/db/daily/` 35 d, `prod/db/monthly/` 365 d) and bucket lock (`prod/db/`, 30 d).
+  8. [x] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (pushed as `d946fb1`). Manual run 2026-11-02: `prod/db/daily/directus-2026-11-02T2212Z.dump` (2.3 MB) + `prod/files/` (285 files, 692 MB). R2 `prod/` rules set by owner (2026-11-02). Rules: `prod/db/daily/` 35 d, `prod/db/monthly/` 365 d, lock `prod/db/` 30 d. `DB_CONNECTION_STRING` in `.env.fly.prod` equals `.env.fly`'s, so the GitHub secret already pointed at the prod database.
   9. [x] **Test** (2026-11-02: Studio edit + upload, live preview, Deploy Website flow confirmed by owner; cert, DNS, Netlify downloads and images checked):
      - Studio login and an edit at `https://cms.familyforestcarbon.org`; an image upload shows up from R2.
      - Live preview from the Studio loads and reloads on save.
