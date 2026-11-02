@@ -210,7 +210,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
     3. Download `<env>/files/` and run the image with `STORAGE_LOCATIONS=r2`, `STORAGE_R2_DRIVER=local`, `STORAGE_R2_ROOT=<files dir>` (no DB change needed). Use the entrypoint `node cli.js bootstrap && exec pm2-runtime start ecosystem.config.cjs` (no `exec` before bootstrap).
     4. `scripts/build-site.sh restore-test` + `compare-site.py`, then delete the branch, container and downloads.
   - [ ] Repeat the restore test every few months.
-  - [ ] At cutover: set `BACKUP_ENV: prod` in the workflow and update the `DB_CONNECTION_STRING` secret if the prod database differs.
+  - [x] At cutover: set `BACKUP_ENV: prod` in the workflow and update the `DB_CONNECTION_STRING` secret if the prod database differs.
 
 ## Phase 4 – Data migration rehearsal, then cutover
 
@@ -272,7 +272,7 @@ Latest is **12.5.1** (as of 2026-10-27, 46 releases ahead of 11.5.1). Upgrading 
   5. [x] **Netlify**: `DIRECTUS_ASSETS_URL=https://cms.familyforestcarbon.org` on **both the live site and `ffcp-website-preview`**. The preview site keeps `DIRECTUS_API_URL=https://cms.familyforestcarbon.org`, so live preview follows the DNS switch. Delete `ffcp-website-preview-test`.
   6. [x] **Rebuild the live site.**
   7. [x] **Studio**: fill in the one-time "project owner" form (or set `PROJECT_OWNER`). Editors log in again once (new `SECRET`). The site's static token lives in the database, so it carries over.
-  8. [ ] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (done, committed; push needed). `DB_CONNECTION_STRING` in `.env.fly.prod` equals `.env.fly`'s, so the GitHub secret should already point at the prod database, then a manual run. In R2, add the `prod/` lifecycle rules (`prod/db/daily/` 35 d, `prod/db/monthly/` 365 d) and bucket lock (`prod/db/`, 30 d).
+  8. [x] **Backups**: `BACKUP_ENV: prod` in `.github/workflows/backup.yml` (pushed as `d946fb1`). Manual run 2026-11-02: `prod/db/daily/directus-2026-11-02T2212Z.dump` (2.3 MB) + `prod/files/` (285 files, 692 MB). R2 `prod/` rules set by owner (2026-11-02). `DB_CONNECTION_STRING` in `.env.fly.prod` equals `.env.fly`'s, so the GitHub secret should already point at the prod database, then a manual run. In R2, add the `prod/` lifecycle rules (`prod/db/daily/` 35 d, `prod/db/monthly/` 365 d) and bucket lock (`prod/db/`, 30 d).
   9. [ ] **Test**:
      - Studio login and an edit at `https://cms.familyforestcarbon.org`; an image upload shows up from R2.
      - Live preview from the Studio loads and reloads on save.
