@@ -176,6 +176,7 @@ If the DNS switch happens before step 3 (it did at FFCP): freeze immediately and
 - **`/server/health` `warn`** can be the R2 check (writes and reads a file, 750 ms threshold) on a slow round trip. The details need an admin token; the Fly check uses `/server/ping` and isn't affected.
 - **`migrate.sh` and flyctl's output:** newer flyctl doesn't print "good state" after a deploy; the step-7 filter used to stop the script there (fixed 2026-11-06 in FFCP and AFF).
 - **Dev stacks share volumes by default:** every CMS repo folder is called `cms`, so give each `docker-compose.dev.yml` its own `name:`.
+- **GitHub's schedule is late:** the "07:17 UTC" backup starts 6–10 h late every day (FFCP: 13:42–17:11 UTC), so the first scheduled run of a new repo shows up in the afternoon; check `gh run list --workflow backup.yml` before deciding it's broken. The nightly backup effectively runs during US working hours, which is fine for a daily dump.
 - **DNS owners don't always do what's asked:** FFCP got 900 s instead of 300 s, a CNAME instead of a TXT, and the switch before the data migration. Send exact tables, say "only on the day" for the switch, and check every record yourself.
 
 ## 5. Timings
