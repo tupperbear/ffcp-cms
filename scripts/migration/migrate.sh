@@ -112,7 +112,10 @@ step "7 deploy $APP"
 PUBLIC_URL=$([ "$MODE" = cutover ] && echo "$PROD_CMS" || echo "$APP_URL")
 confirm "Deploy $APP with PUBLIC_URL=$PUBLIC_URL?"
 (cd "$CMS" && flyctl secrets import --stage -a "$APP" <.env.fly.prod >/dev/null &&
-	flyctl deploy -c fly.prod.toml -a "$APP" --ha=false -e PUBLIC_URL="$PUBLIC_URL" 2>&1 | grep -E "good state|rror" | tail -2)
+	flyctl deploy -c fly.prod.toml -a "$APP" --ha=false -e PUBLIC_URL="$PUBLIC_URL" 2>&1 |
+		{ grep -E "good state|deployed app|rror" || true; } | tail -2)
+# (grep finding nothing must not stop the script: newer flyctl doesn't print "good state";
+# a failed deploy still does, through flyctl's exit status and pipefail)
 for _ in $(seq 1 40); do curl -sf "$APP_URL/server/ping" >/dev/null && break; sleep 3; done
 echo "health: $(curl -s "$APP_URL/server/health")"
 
