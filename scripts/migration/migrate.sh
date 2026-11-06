@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runbook: migrate the production CMS (VPS, Directus 11.5.1) to Fly + Neon + R2.
+# Runbook: migrate the production CMS (VPS) to Fly + Neon + R2.
 #
 # Usage (from the cms repo): scripts/migration/migrate.sh <backup-name> [rehearsal|cutover]
 #   <backup-name>  folder name printed by the VPS backup, e.g. 20261028-1740.
@@ -105,7 +105,12 @@ psql_neon "-q -v ON_ERROR_STOP=1 -f /s/backfill.sql"
 echo "applied $(grep -c '^update' "$W/backfill.sql") rows"
 
 step "6 sync files to R2"
-psql_neon "-Atc 'select filename_disk from directus_files order by 1'" >"$W/r2-files.txt"
+psql_neon "-Atc 'select filename_disk from directus_files where filename_disk is not null order by 1'" >"$W/r2-files.txt"
+# Also the cached thumbnails (<id>__<hash>.<ext>): 11.17.4 names them like 11.x before it,
+# and making thousands of them cold on Fly during the first site build is too slow
+# (AFF: image timeouts and pages silently missing; see the playbook's pitfalls).
+(cd "$W/uploads" && find . -maxdepth 1 -type f -name '*__*' | sed 's#^\./##') >>"$W/r2-files.txt"
+echo "$(grep -c '__' "$W/r2-files.txt") thumbnails + $(grep -vc '__' "$W/r2-files.txt") originals"
 rclone_r2 'rclone copy /w/uploads r2:$STORAGE_R2_BUCKET --files-from /w/r2-files.txt --transfers 16 -q && rclone check /w/uploads r2:$STORAGE_R2_BUCKET --files-from /w/r2-files.txt --one-way 2>&1 | grep -E "differences|matching"'
 
 step "7 deploy $APP"
