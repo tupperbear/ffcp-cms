@@ -2,6 +2,8 @@
 
 How to move a Directus CMS from the Dokploy VPS to **Fly.io + Neon Postgres + Cloudflare R2**, upgrading Directus along the way. Distilled from the FFCP migration (cut over 2026-11-02, 0 differences) and the AFF migration (rehearsed 2026-11-06, 0 differences). [`migration-plan.md`](migration-plan.md) is the full FFCP record; AFF's is the readme of its repo (`aff/cms/readme.md`, GitHub `tupperbear/aff-cms`). AFF's site is much more image-heavy than FFCP's, which is where most of its extra lessons come from.
 
+**After the migration:** [`optimization-playbook.md`](optimization-playbook.md) covers the site build speed, removing unused files and bringing images to a size baseline (from AFF, 2026-11-11).
+
 **Assumed setup** (true for FFCP, `aff-cms` and `atfs-cms`):
 - The old CMS runs on the shared VPS under Dokploy: a Directus compose project plus a Postgres Swarm service, with files on Docker volumes. **The three CMSes share the server: only ever touch the containers and volumes of the one you're migrating.**
 - It feeds an **Astro site on Netlify**: a static live site, plus an SSR preview site used for Directus live preview.
