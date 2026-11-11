@@ -33,8 +33,9 @@ The details and every number are in AFF's readme ("After the migration") and
 
 Order matters: **build speed first** (it gives you a fast, trustworthy build to check
 everything else with), then **remove unused files**, then **bring the rest to a size
-baseline**. Still to do at AFF: replace the "Deploy Website" flow and Netlify build hook
-with Directus's native Netlify deployments (Deployments module, 11.17+).
+baseline**. We also tried Directus's native Netlify deployments (Deployment module,
+11.17+) as a replacement for the "Deploy Website" flow and build hook; it worked but AFF
+chose to keep the flow (notes in AFF's readme).
 
 ---
 
