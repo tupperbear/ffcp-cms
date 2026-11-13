@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Website performance and media review — Family Forest Carbon Program</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --black: #222222; --juniper: #113429; --carbon: #7DE798; --birch: #FFFDF2;
+    --walnut: #BBAD9B; --spring: #A9CA6B; --aspen: #F7B564; --oak: #814736;
+    --tint: #F3EEE3; --light: #DED6C9; --medium: #8A7E6E;
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--black); font-size: 10.5pt; line-height: 1.55; background: var(--birch);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page { width: 8.5in; height: 11in; position: relative; overflow: hidden; page-break-after: always; background: var(--birch); }
+  .page:last-child { page-break-after: auto; }
+  .pad { padding: 0.6in 0.75in 0 0.75in; }
+  h1, h2, h3 { margin: 0; color: var(--juniper); }
+  h1 { font-weight: 600; font-size: 34pt; line-height: 1.06; letter-spacing: -0.02em; color: #fff; }
+  h2 { font-weight: 500; font-size: 21pt; line-height: 1.2; letter-spacing: -0.015em; margin-bottom: 8pt; }
+  h3 { font-weight: 600; font-size: 13pt; line-height: 1.3; margin-bottom: 4pt; }
+  p { margin: 0 0 8pt 0; }
+  strong { font-weight: 600; }
+  .eyebrow { font-weight: 600; font-size: 8.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--medium); margin-bottom: 6pt; }
+  .eyebrow.oak { color: var(--oak); } .eyebrow.spring { color: #6F8F35; } .eyebrow.aspen { color: #C47F25; }
+  .lead { font-size: 13pt; line-height: 1.5; color: var(--juniper); }
+
+  /* Cover */
+  .hero { height: 3.75in; background: var(--juniper) url("hero.jpg") center 45% / cover no-repeat; position: relative; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,52,41,.10) 0%, rgba(17,52,41,.78) 100%); }
+  .hero .inner { position: absolute; left: 0.75in; right: 0.75in; bottom: 0.5in; z-index: 1; }
+  .hero .eyebrow { color: var(--carbon); }
+  .brand { position: absolute; top: 0; left: 0; z-index: 2; background: #fff; height: 0.96in; width: 3.3in;
+           clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%); display: flex; align-items: center; padding-left: 0.75in; }
+  .brand img { height: 0.34in; display: block; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14pt; margin-top: 22pt; }
+  .stat { background: var(--tint); padding: 14pt 14pt 12pt; border-top: 4pt solid var(--oak); }
+  .stat.spring { border-color: var(--spring); } .stat.aspen { border-color: var(--aspen); }
+  .stat .big { font-weight: 600; font-size: 24pt; line-height: 1.05; letter-spacing: -0.02em; color: var(--juniper); }
+  .stat .what { font-weight: 600; font-size: 10.5pt; margin-top: 4pt; color: var(--juniper); }
+  .stat .was { font-size: 9pt; color: #6b6253; margin-top: 3pt; }
+
+  .section { margin-top: 30pt; }
+  .section:first-child { margin-top: 0; }
+  .rule { height: 2pt; width: 34pt; background: var(--juniper); margin: 0 0 10pt; }
+  .rule.oak { background: var(--oak); } .rule.spring { background: var(--spring); } .rule.aspen { background: var(--aspen); }
+
+  table { border-collapse: collapse; width: 100%; margin: 6pt 0 8pt; font-size: 10pt; }
+  th { text-align: left; font-weight: 600; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; color: var(--medium); padding: 0 8pt 5pt 0; border-bottom: 1.5pt solid var(--juniper); }
+  td { padding: 6pt 8pt 6pt 0; border-bottom: 0.75pt solid var(--light); vertical-align: top; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 22pt; }
+  ul { margin: 2pt 0 8pt; padding-left: 14pt; } li { margin-bottom: 4pt; }
+  .panel { background: var(--tint); padding: 13pt 18pt 6pt; }
+  ol.decisions { list-style: none; padding: 0; margin: 4pt 0 0; counter-reset: d; }
+  ol.decisions li { counter-increment: d; position: relative; padding-left: 28pt; margin-bottom: 7pt; }
+  ol.decisions li::before { content: counter(d); position: absolute; left: 0; top: 0; width: 18pt; height: 18pt; border-radius: 50%; background: var(--juniper); color: var(--carbon); font-weight: 600; font-size: 9pt; text-align: center; line-height: 18pt; }
+  .tight td { padding-top: 4.5pt; padding-bottom: 4.5pt; }
+  .tight .panel { padding: 10pt 18pt 3pt; }
+  .tight li { margin-bottom: 2.5pt; }
+  .tight ol.decisions li { margin-bottom: 5pt; }
+  .small { font-size: 9pt; color: #6b6253; }
+  .footer { position: absolute; left: 0.75in; right: 0.75in; bottom: 0.4in; font-size: 8pt; color: var(--medium); display: flex; justify-content: space-between; border-top: 0.75pt solid var(--light); padding-top: 6pt; }
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<div class="page">
+  <div class="hero">
+    <div class="brand"><img src="logo-mark.svg" alt="Family Forest Carbon Program"></div>
+    <div class="inner">
+      <div class="eyebrow">Website report · November 2026</div>
+      <h1>Website performance<br>and media review</h1>
+    </div>
+  </div>
+  <div class="pad">
+    <p class="lead">Following the move of the content management system to its new hosting, we made two improvements to familyforestcarbon.org: changes now publish faster, and the media library’s oversized images were brought down to a sensible size. We also reviewed which files the website actually uses.</p>
+    <p>Nothing about how the site looks or how you edit it has changed. Every page was checked before and after each step.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="big">About 30&nbsp;s</div>
+        <div class="what">to publish changes</div>
+        <div class="was">was about 1 minute, up to 2¼ minutes</div>
+      </div>
+      <div class="stat spring">
+        <div class="big">73%</div>
+        <div class="what">smaller image library</div>
+        <div class="was">360&nbsp;MB → 98&nbsp;MB</div>
+      </div>
+      <div class="stat aspen">
+        <div class="big">54 of 54</div>
+        <div class="what">pages unchanged</div>
+        <div class="was">checked before and after every step</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">In this report</div>
+      <table>
+        <tr><td style="width:24pt"><strong>1</strong></td><td><strong>Faster publishing</strong> — what changed for editors, and a tip</td><td class="num">page 2</td></tr>
+        <tr><td><strong>2</strong></td><td><strong>Right-sized images</strong> — oversized originals resized</td><td class="num">page 2</td></tr>
+        <tr><td><strong>3</strong></td><td><strong>Media library review</strong> — which files the site uses</td><td class="num">page 3</td></tr>
+        <tr><td><strong>4</strong></td><td><strong>How we kept it safe</strong>, and optional clean-up for FFCP</td><td class="num">page 3</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span>Family Forest Carbon Program · familyforestcarbon.org</span><span>1</span></div>
+</div>
+
+<!-- Page 2 -->
+<div class="page">
+  <div class="pad">
+    <div class="section">
+      <div class="eyebrow oak">1 · For editors</div>
+      <div class="rule oak"></div>
+      <h2>Faster publishing</h2>
+      <p>When you click <strong>Deploy Website</strong> in the CMS, the website is rebuilt with your changes. That rebuild now takes about thirty seconds instead of a minute or more.</p>
+      <table>
+        <tr><th>Rebuild</th><th class="num">Before</th><th class="num">Now</th></tr>
+        <tr><td>Live website (familyforestcarbon.org)</td><td class="num">55 s – 2 min 15 s<br><span class="small">typically about 1 min 10 s</span></td><td class="num"><strong>28 s</strong></td></tr>
+        <tr><td>Building the pages themselves</td><td class="num">40 s</td><td class="num"><strong>7 s</strong></td></tr>
+      </table>
+      <p><strong>What changed:</strong> to build each page, the site used to fetch every image from the CMS just to check its dimensions, which was most of the waiting. It now gets the dimensions of all images in a single request.</p>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow spring">2 · Behind the scenes</div>
+      <div class="rule spring"></div>
+      <h2>Right-sized images</h2>
+      <p>Many images in the media library were stored at the full resolution of the original photo — up to 5,300 pixels wide and 13.8&nbsp;MB for a single image. <strong>92 images</strong> were brought to the same standard new uploads already get automatically: at most 2,000 pixels on the longest side, in the modern WebP format.</p>
+      <table>
+        <tr><th>Images</th><th class="num">Before</th><th class="num">Now</th></tr>
+        <tr><td>The 92 resized images</td><td class="num">299 MB</td><td class="num"><strong>37 MB</strong></td></tr>
+        <tr><td>Largest single image (<em>Greenbiz23 Ad</em>)</td><td class="num">13.8 MB</td><td class="num"><strong>0.5 MB</strong></td></tr>
+        <tr><td>All images in the media library</td><td class="num">360 MB</td><td class="num"><strong>98 MB</strong></td></tr>
+        <tr><td>Whole media library (284 files)</td><td class="num">730 MB</td><td class="num"><strong>460 MB</strong></td></tr>
+      </table>
+      <p>Visitors already received images at the size each page shows them; what changes is the original the site prepares them from, which is now a fraction of the size. Nothing in the CMS needs updating — each image is still in the same place, and image quality on screen is unchanged.</p>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Tip for editors</div>
+      <p>Publishing works as before: the <em>Deploy Website</em> button, now finishing in about thirty seconds.</p>
+      <p class="small"><strong>Uploads:</strong> images are resized automatically when you upload them. For video, linking to YouTube or Vimeo keeps the media library small.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Website performance and media review · November 2026</span><span>2</span></div>
+</div>
+
+<!-- Page 3 -->
+<div class="page">
+  <div class="pad">
+    <div class="section">
+      <div class="eyebrow aspen">3 · Media library</div>
+      <div class="rule aspen"></div>
+      <h2>Media library review</h2>
+      <p>We checked every file in the media library against what the live website shows. Because the library is small, <strong>nothing was removed</strong>; the review is here so you know what is there.</p>
+      <table>
+        <tr><th>Media library</th><th class="num">Files</th><th class="num">Size</th></tr>
+        <tr><td>Shown on the website, or used by the CMS itself (logo, help images)</td><td class="num">111</td><td class="num">118 MB</td></tr>
+        <tr><td>Not used anywhere</td><td class="num">91</td><td class="num">191 MB</td></tr>
+        <tr><td>Used only in content blocks no longer attached to any page</td><td class="num">22</td><td class="num">97 MB</td></tr>
+        <tr><td>Used only in draft or archived pages</td><td class="num">54</td><td class="num">54 MB</td></tr>
+        <tr><td>Thumbnails on YouTube videos (the site shows YouTube’s own)</td><td class="num">6</td><td class="num">3 MB</td></tr>
+      </table>
+    </div>
+
+    <div class="section panel">
+      <div class="eyebrow">4 · How we kept it safe</div>
+      <ul>
+        <li>Every replaced image is kept in the CMS backups, so any original can be brought back.</li>
+        <li>The resizing was tested on a copy of the CMS first, then on a single image, before the rest.</li>
+        <li>After each step the whole website was rebuilt and compared with the version before: all 54 pages came out the same. One tall background image is now requested at a slightly smaller size, by design.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Optional clean-up for FFCP</div>
+      <ol class="decisions">
+        <li><strong>Unused PDFs</strong> — 32 PDFs (243&nbsp;MB) aren’t linked from the website, including three copies of the 39&nbsp;MB <em>Apps Practice Overview (May&nbsp;2024)</em> and several AFF reports. Some may still be linked from old emails, so we left them in place.</li>
+        <li><strong>Draft and archived content</strong> — 54 files are used only by drafts or archived pages (the CMS has 10 draft and 8 archived pages). Removing them would leave those drafts with missing images; is that content still needed?</li>
+        <li><strong>Old content blocks</strong> — 83 content blocks left behind by deleted pages are still stored in the CMS and can be tidied up.</li>
+      </ol>
+      <p class="small" style="margin-bottom:0">A full list of these files is available on request.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Website performance and media review · November 2026</span><span>3</span></div>
+</div>
+
+</body>
+</html>
