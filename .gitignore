@@ -9,3 +9,4 @@ uploads
 .env.*
 !.env.example
 .migration
+__pycache__/
