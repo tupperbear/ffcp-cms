@@ -10,3 +10,6 @@ uploads
 !.env.example
 .migration
 __pycache__/
+
+# Client communications (reports, emails): kept locally, not in the repo
+docs/client/
